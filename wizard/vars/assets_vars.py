@@ -209,27 +209,27 @@ _ext_dic_[_camera_rig_][_houdini_] = ['hip']
 
 # Stages softwares rules
 _stage_softwares_rules_dic_ = dict()
-_stage_softwares_rules_dic_[_modeling_] = [_maya_, _houdini_, _blender_]
-_stage_softwares_rules_dic_[_rigging_] = [_maya_, _houdini_, _blender_]
+_stage_softwares_rules_dic_[_modeling_] = [_blender_, _maya_, _houdini_]
+_stage_softwares_rules_dic_[_rigging_] = [_blender_, _maya_, _houdini_]
 _stage_softwares_rules_dic_[_grooming_] = [
-    _maya_, _houdini_, _blender_, _guerilla_render_]
+    _houdini_, _maya_, _blender_, _guerilla_render_]
 _stage_softwares_rules_dic_[_texturing_] = [
     _substance_painter_, _substance_designer_, _maya_, _houdini_, _blender_, _guerilla_render_]
 _stage_softwares_rules_dic_[_shading_] = [
     _guerilla_render_, _maya_, _houdini_, _blender_]
-_stage_softwares_rules_dic_[_layout_] = [_maya_, _houdini_, _blender_]
-_stage_softwares_rules_dic_[_animation_] = [_maya_, _houdini_, _blender_]
+_stage_softwares_rules_dic_[_layout_] = [_blender_, _maya_, _houdini_]
+_stage_softwares_rules_dic_[_animation_] = [_blender_, _maya_, _houdini_]
 _stage_softwares_rules_dic_[_cfx_] = [_houdini_, _maya_, _blender_]
 _stage_softwares_rules_dic_[_fx_] = [_houdini_, _maya_, _blender_]
-_stage_softwares_rules_dic_[_camera_] = [_maya_, _houdini_, _blender_]
+_stage_softwares_rules_dic_[_camera_] = [_blender_, _maya_, _houdini_]
 _stage_softwares_rules_dic_[_lighting_] = [
     _guerilla_render_, _maya_, _houdini_, _blender_]
 _stage_softwares_rules_dic_[_rendering_] = [
     _guerilla_render_, _maya_, _houdini_, _blender_]
 _stage_softwares_rules_dic_[_compositing_] = [_nuke_, _blender_]
-_stage_softwares_rules_dic_[_custom_stage_] = [_maya_, _blender_, _houdini_,
-                                               _guerilla_render_, _substance_painter_, _substance_designer_, _nuke_]
-_stage_softwares_rules_dic_[_camera_rig_] = [_maya_, _blender_, _houdini_]
+_stage_softwares_rules_dic_[_custom_stage_] = [_blender_, _guerilla_render_, _maya_, _houdini_,
+                                               _substance_painter_, _substance_designer_, _nuke_]
+_stage_softwares_rules_dic_[_camera_rig_] = [_blender_, _maya_, _houdini_]
 
 # Asset states
 _asset_state_todo_ = 'todo'
