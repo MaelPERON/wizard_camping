@@ -35,6 +35,7 @@ def connect() -> bool:
     try:
         import debugpy
     except ModuleNotFoundError as e:
+        logging.error(f"Failed to import debugpy: {e}")
         return False
 
     try:
@@ -42,9 +43,11 @@ def connect() -> bool:
         port = int(os.environ.get("WIZARD_DEBUGPY_PORT", "5679"))
 
         debugpy.connect((host, port))
+        logging.info(f"Connected to debugpy at {host}:{port}")
 
         debugpy.wait_for_client()
     except ConnectionRefusedError as e:
+        logging.error(f"Failed to connect to debugpy: {e}")
         return False
 
     return True
