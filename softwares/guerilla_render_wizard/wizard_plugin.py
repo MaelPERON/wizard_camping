@@ -4,7 +4,9 @@
 
 # Python modules
 import os
+import sys
 import logging
+import importlib
 
 # Wizard modules
 import wizard_communicate
@@ -21,6 +23,14 @@ from guerilla_render_wizard.export import lighting
 from guerilla import Document, pynode
 
 logger = logging.getLogger(__name__)
+
+
+def reload_plugin():
+    modules = list(sys.modules.items())
+    for name, module in modules:
+        if name.startswith(__package__):
+            print(f"Reloading module: {name}")
+            importlib.reload(module)
 
 
 def save_increment(comment=''):
