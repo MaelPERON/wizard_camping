@@ -4,6 +4,7 @@
 
 # Wizard modules
 from substance_painter_wizard import wizard_plugin
+import wizard_debug
 
 # Substance painter modules
 import substance_painter
@@ -19,6 +20,9 @@ def start_plugin():
     WIZARD_TOOLBAR = wizard_plugin.tool_bar()
     substance_painter.event.DISPATCHER.connect(
         event_cls=substance_painter.event.ProjectSaved, callback=wizard_plugin.copy_save)
+
+    if wizard_debug.is_debugging():
+        wizard_debug.connect()
 
 
 def close_plugin():

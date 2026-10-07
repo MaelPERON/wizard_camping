@@ -9,6 +9,7 @@ import logging
 # Wizard modules
 from guerilla_render_wizard import wizard_plugin
 from guerilla_render_wizard import wizard_render
+import wizard_debug
 
 # Guerilla modules
 from guerilla import command
@@ -17,6 +18,11 @@ logger = logging.getLogger(__name__)
 
 
 class menu():
+    class reload_plugin(command):
+        @staticmethod
+        def action(luaObj, window, x, y, suffix):
+            wizard_plugin.reload_plugin()
+
     class save_increment(command):
         @staticmethod
         def action(luaObj, window, x, y, suffix):
@@ -186,6 +192,10 @@ class menu():
         @staticmethod
         def action(luaObj, window, x, y, suffix):
             wizard_plugin.setup_render('HD')
+
+    if wizard_debug.is_debugging():
+        cmd = reload_plugin('Reload plugin', 'icons/reload.png')
+        cmd.install('Wizard')
 
     cmd = save_increment('Save', 'icons/save_increment.png')
     cmd.install('Wizard')
