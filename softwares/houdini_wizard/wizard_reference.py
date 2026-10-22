@@ -124,6 +124,8 @@ def update_from_extension(namespace, files_list, parent_GRP_name, stage_name, re
             update_abc(namespace, files_list)
         else:
             update_abc_camera(namespace, files_list)
+    elif extension in ['usd', 'usda', 'usdc']:
+        update_usd(namespace, files_list)
     elif extension == 'hip':
         update_hip(namespace, files_list)
     trigger_after_reference_hook(stage_name,
@@ -202,6 +204,24 @@ def update_abc(namespace, files_list):
     else:
         logger.warning("Can't reference multiple abc files")
 
+def update_usd(namespace, files_list):
+
+    usd_files = []
+
+    for file in files_list:
+        if not file.endswith(('.usd', '.usda', '.usdc')):
+            continue
+        usd_files.append(file)
+
+    if len(usd_files) == 1:
+        wizard_ref_node = wizard_tools.get_wizard_ref_node()
+        usd_node = wizard_tools.node_exists(namespace, parent=wizard_ref_node)
+        if usd_node:
+            usd_node.parm("filepath1").set(usd_files[0])
+        else:
+            logger.warning(f"{namespace} not found")
+    else:
+        logger.warning("Can't reference multiple usd files")
 
 def update_hip(namespace, files_list):
     root = hou.node('/obj')
