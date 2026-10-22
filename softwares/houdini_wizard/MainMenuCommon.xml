@@ -181,6 +181,13 @@ wizard_plugin.set_frame_range(rolls=1)]]>
 wizard_video.invoke_settings_widget()]]>
         </scriptCode>
       </scriptItem>
+
+      <scriptItem>
+        <label>Reload plugin</label>
+        <scriptCode><![CDATA[from houdini_wizard import wizard_plugin
+wizard_plugin.reload_plugin()]]>
+        </scriptCode>
+      </scriptItem>
       
     </subMenu>
   </menuBar>
