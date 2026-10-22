@@ -28,6 +28,16 @@ def save_increment(comment=''):
     wizard_tools.save_increment(comment=comment)
 
 
+def reload_plugin():
+    import sys
+
+    for key, mod in sys.modules.copy().items():
+        if key.startswith('houdini_wizard'):
+            import importlib
+            importlib.reload(mod)
+            logger.debug(f"Reloaded module {key}")
+
+
 def export(prepare_only=False):
     stage_name = os.environ['wizard_stage_name']
     if stage_name == 'custom':
