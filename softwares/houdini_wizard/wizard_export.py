@@ -156,6 +156,20 @@ def default_abc_command(wizard_abc_output, frange, export_file, prepare_only=Fal
     wizard_abc_output.parm("execute").pressButton()
 
 
+def default_usd_command(wizard_usd_output: hou.Node,
+                        frange, export_file, prepare_only=False):
+    # wizard_tools.apply_tags(wizard_usd_output)
+    # TODO: Add support for USD export with tags
+    wizard_usd_output.parm("trange").set('normal')
+    hou.playbar.setFrameRange(frange[0], frange[1])
+    wizard_usd_output.parm("f1").setExpression('$FSTART')
+    wizard_usd_output.parm("f2").setExpression('$FEND')
+    wizard_usd_output.parm("lopoutput").set(export_file)
+    if prepare_only:
+        return
+    wizard_usd_output.parm("execute").pressButton()
+
+
 def default_vdb_command(wizard_vdb_output, frange, export_dir, prepare_only=False):
     file = f"{export_dir}/fx_export.$F4.vdb"
     wizard_vdb_output.parm('sopoutput').set(file)
