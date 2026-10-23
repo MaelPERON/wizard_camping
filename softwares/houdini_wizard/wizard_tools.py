@@ -162,10 +162,6 @@ def apply_tags(out_node):
 
     name = f"wizardTags_{out_node.name()}"
 
-    tags_node = create_node_without_duplicate(
-        'attribwrangle', name, out_node_parent)
-    tags_node.parm('class').set('detail')
-
     category_tag = "CATEGORY={}".format(os.environ['wizard_category_name'])
     asset_tag = "ASSET={}_{}".format(
         os.environ['wizard_category_name'], os.environ['wizard_asset_name'])
