@@ -42,8 +42,7 @@ def default_usd_command(wizard_usd_output: hou.Node,
     a default usd export command.
     You can modify it from here
     Be carreful on what you are modifying'''
-    # wizard_tools.apply_tags(wizard_usd_output)
-    # TODO: Add support for USD export with tags
+    wizard_tools.apply_tags(wizard_usd_output)
     wizard_usd_output.parm("trange").set('normal')
     hou.playbar.setFrameRange(frange[0], frange[1])
     wizard_usd_output.parm("f1").setExpression('$FSTART')
