@@ -170,6 +170,7 @@ def reference_usd(namespace, files_list):
         usd_files.append(file)
 
     if len(usd_files) == 1:
+        # Obj level reference
         wizard_ref_node = wizard_tools.get_wizard_ref_node()
         if not wizard_tools.node_exists(namespace, parent=wizard_ref_node):
             usd_node = wizard_tools.create_node_without_duplicate(
@@ -181,6 +182,14 @@ def reference_usd(namespace, files_list):
                 'null', "OUT_"+namespace, wizard_ref_node)
             null_node.setInput(0, usd_node)
             wizard_ref_node.layoutChildren()
+
+        # Lop level reference
+        stage = hou.node('/stage')
+        if not wizard_tools.node_exists(namespace, parent=stage):
+            usd_node = wizard_tools.create_node_without_duplicate(
+                'reference', namespace, stage)
+            usd_node.parm("filepath1").set(usd_files[0])
+
     else:
         logger.warning("Can't reference multiple usd files")
 
@@ -214,12 +223,21 @@ def update_usd(namespace, files_list):
         usd_files.append(file)
 
     if len(usd_files) == 1:
+        # Obj level reference
         wizard_ref_node = wizard_tools.get_wizard_ref_node()
         usd_node = wizard_tools.node_exists(namespace, parent=wizard_ref_node)
         if usd_node:
             usd_node.parm("filepath1").set(usd_files[0])
         else:
-            logger.warning(f"{namespace} not found")
+            logger.warning(f"{namespace} not found in /obj/wizard_references")
+
+        # Lop level reference
+        stage = hou.node('/stage')
+        usd_node = wizard_tools.node_exists(namespace, parent=stage)
+        if usd_node:
+            usd_node.parm("filepath1").set(usd_files[0])
+        else:
+            logger.warning(f"{namespace} not found in /stage")
     else:
         logger.warning("Can't reference multiple usd files")
 
