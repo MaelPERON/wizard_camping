@@ -179,8 +179,8 @@ def apply_tags(out_node):
     tags_node = create_node_without_duplicate(
         'attribwrangle', name, out_node_parent)
 
-    network = tags_node.network().type().name()
-    if network == 'root':
+    network = tags_node.path().split('/')[1]
+    if network == 'obj':
         tags_node.parm('class').set('detail')
         tags_node.parm('snippet').set(f'''s@wizardTags += "{tags_list_string}";''')
     elif network == 'stage':
