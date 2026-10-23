@@ -47,6 +47,9 @@ def export_by_extension(export_file, frange, out_node, parent, prepare_only=Fals
     elif export_file.endswith('.vdb'):
         export_vdb(export_file, frange, out_node,
                    parent, prepare_only=prepare_only)
+    elif export_file.endswith('.usd'):
+        export_usd(export_file, frange, out_node,
+                   parent, prepare_only=prepare_only)
     else:
         logger.info("{} extension is unkown".format(export_file))
 
