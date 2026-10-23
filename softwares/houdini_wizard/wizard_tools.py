@@ -166,11 +166,12 @@ def apply_tags(out_node):
         'attribwrangle', name, out_node_parent)
     tags_node.parm('class').set('detail')
 
-    asset_tag = "{}_{}".format(
+    category_tag = "CATEGORY={}".format(os.environ['wizard_category_name'])
+    asset_tag = "ASSET={}_{}".format(
         os.environ['wizard_category_name'], os.environ['wizard_asset_name'])
     if os.environ['wizard_variant_name'] != 'main':
         asset_tag += f"_{os.environ['wizard_variant_name']}"
-    to_tag = [os.environ['wizard_category_name'], asset_tag]
+    to_tag = [category_tag, asset_tag]
 
     tags_list_string = (',').join(to_tag)
 
