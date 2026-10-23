@@ -95,6 +95,19 @@ def export_abc(export_file, frange, out_node, parent, prepare_only=False):
         logger.warning(f'"{out_node}" node not found')
 
 
+def export_usd(export_file, frange, out_node, parent, prepare_only=False):
+    wizard_usd_output = wizard_tools.look_for_node(out_node, parent)
+    if wizard_usd_output:
+        usd_command = wizard_hooks.get_usd_command("houdini")
+        if usd_command is None:
+            usd_command = default_usd_command
+        usd_command(wizard_usd_output, frange,
+                    export_file, prepare_only=prepare_only)
+        return [export_file]
+    else:
+        logger.warning(f'"{out_node}" node not found')
+
+
 def export_vdb(export_file, frange, out_node, parent, prepare_only=False):
     export_dir = os.path.dirname(export_file)
     wizard_vdb_output = wizard_tools.look_for_node(out_node, parent)
