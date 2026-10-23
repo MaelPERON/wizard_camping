@@ -180,7 +180,7 @@ def apply_tags(out_node):
         'attribwrangle', name, out_node_parent)
 
     network = tags_node.network().type().name()
-    if network == 'obj':
+    if network == 'root':
         tags_node.parm('class').set('detail')
         tags_node.parm('snippet').set(f'''s@wizardTags += "{tags_list_string}";''')
     elif network == 'stage':
