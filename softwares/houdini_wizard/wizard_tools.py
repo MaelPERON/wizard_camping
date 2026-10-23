@@ -180,6 +180,9 @@ def apply_tags(out_node):
     tags_node.setInput(0, out_node_input)
     out_node.setInput(0, tags_node)
 
+    tags_node.setPosition(out_node.position())  # Visually insert the tags node before the out_node
+    out_node.setPosition(tags_node.position() + hou.Vector2(0, -1))
+
 
 def by_frame_progress_script(percent_factor=100):
     command = "import hou\n"
