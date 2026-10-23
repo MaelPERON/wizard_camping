@@ -29,13 +29,15 @@ def export(stage_name, export_name, exported_string_asset, export_GRP_list, fran
 
         export_file = wizard_communicate.request_export(work_env_id,
                                                         export_name)
-        if export_file.endswith('.abc'):
+
+        extension = os.path.splitext(export_file)[1]
+        if extension == '.abc':
             export_files = export_abc(export_GRP_list, export_file, frange)
-        if export_file.endswith('.usd'):
+        if extension in ['.usd', '.usda', '.usdc', '.usdz']:
             export_files = export_usd(export_GRP_list, export_file, frange)
-        elif export_file.endswith('.fbx'):
+        elif extension == '.fbx':
             export_files = export_fbx(export_GRP_list, export_file, frange)
-        elif export_file.endswith('.blend'):
+        elif extension == '.blend':
             export_files = export_blend(export_GRP_list, export_file)
         export_dir = wizard_communicate.add_export_version(export_name,
                                                            export_files,
