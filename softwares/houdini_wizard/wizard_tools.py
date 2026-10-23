@@ -170,7 +170,7 @@ def apply_tags(out_node):
 
     tags_list_string = (',').join(to_tag)
 
-    # Creatinng a detail wrangle node to apply the tags
+    # Creating an attribute wrangle node to apply the tags
     tags_node = create_node_without_duplicate(
         'attribwrangle', name, out_node_parent)
 
