@@ -39,15 +39,16 @@ def export(stage_name, export_name, exported_string_asset, out_node, frange=[0, 
 
 
 def export_by_extension(export_file, frange, out_node, parent, prepare_only=False):
-    if export_file.endswith('.hip'):
+    extension = os.path.splitext(export_file)[1]
+    if extension == '.hip':
         export_hip(export_file, frange)
-    elif export_file.endswith('.abc'):
+    elif extension == '.abc':
         export_abc(export_file, frange, out_node,
                    parent, prepare_only=prepare_only)
-    elif export_file.endswith('.vdb'):
+    elif extension == '.vdb':
         export_vdb(export_file, frange, out_node,
                    parent, prepare_only=prepare_only)
-    elif export_file.endswith('.usd'):
+    elif extension in ['.usd', '.usda', '.usdc', '.usdz']:
         export_usd(export_file, frange, out_node,
                    parent, prepare_only=prepare_only)
     else:
