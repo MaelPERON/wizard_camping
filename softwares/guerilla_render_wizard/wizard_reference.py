@@ -138,7 +138,7 @@ def import_file(namespace, files_list, parent_GRP_name, stage_name, referenced_s
     if namespace not in wizard_tools.get_all_nodes():
         GRP = wizard_tools.add_GRP(parent_GRP_name)
         extension = files_list[0].split('.')[-1]
-        if extension == 'abc' or extension == 'gproject':
+        if extension == 'abc' or extension == 'gproject' or 'usd' in extension.lower():
             create_ref(namespace, files_list, GRP)
         elif extension == 'vdb':
             create_vdb_ref(namespace, files_list, GRP)

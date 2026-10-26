@@ -162,22 +162,53 @@ def apply_tags(out_node):
 
     name = f"wizardTags_{out_node.name()}"
 
-    tags_node = create_node_without_duplicate(
-        'attribwrangle', name, out_node_parent)
-    tags_node.parm('class').set('detail')
-
-    asset_tag = "{}_{}".format(
+    category_tag = "CATEGORY={}".format(os.environ['wizard_category_name'])
+    asset_tag = "ASSET={}_{}".format(
         os.environ['wizard_category_name'], os.environ['wizard_asset_name'])
     if os.environ['wizard_variant_name'] != 'main':
         asset_tag += f"_{os.environ['wizard_variant_name']}"
-    to_tag = [os.environ['wizard_category_name'], asset_tag]
+    to_tag = [category_tag, asset_tag]
 
     tags_list_string = (',').join(to_tag)
 
-    tags_node.parm('snippet').set(f'''s@wizardTags += "{tags_list_string}";''')
+    # Creatinng a detail wrangle node to apply the tags
+    tags_node = create_node_without_duplicate(
+        'attribwrangle', name, out_node_parent)
 
+    network = tags_node.path().split('/')[1]
+    if network == 'obj':
+        tags_node.parm('class').set('detail')
+        tags_node.parm('snippet').set(f'''s@wizardTags += "{tags_list_string}";''')
+    elif network == 'stage':
+        tags_node.parm('primpattern').set('/*')
+        vex_snippet = f'''string tag_addition = "{tags_list_string}";
+string attrib = "wizardTags";
+
+// Create the string attrib if it does not already exist
+if (!usd_isattrib(0, @primpath, attrib)) {{
+    usd_addattrib(0, @primpath, attrib, "string");
+    usd_setattrib(0, @primpath, attrib, "");
+}}
+
+// Append "foobar" only if it is not already present
+string tags = usd_attrib(0, @primpath, attrib);
+
+if (tags == "") {{
+    tags = tag_addition;
+}} else if (!match(("\\b" + tag_addition + "\\b"), tags)) {{
+    tags += "," + tag_addition;
+}}
+
+usd_setattrib(0, @primpath, attrib, tags);'''
+        tags_node.parm('snippet').set(vex_snippet)
+
+
+    # Connecting the tags node to the out_node
     tags_node.setInput(0, out_node_input)
     out_node.setInput(0, tags_node)
+
+    tags_node.setPosition(out_node.position())  # Visually insert the tags node before the out_node
+    out_node.setPosition(tags_node.position() + hou.Vector2(0, -1))
 
 
 def by_frame_progress_script(percent_factor=100):

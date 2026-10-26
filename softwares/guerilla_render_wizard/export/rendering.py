@@ -28,6 +28,7 @@ def main(render_type, frange, farm=0):
 
             wizard_render.setup_frame_range(render_type, frange)
             wizard_render.setup_image_format(render_type)
+            wizard_render.setup_renderfarm_settings(render_type)
 
             string_asset = wizard_communicate.get_string_variant_from_work_env_id(
                 int(os.environ['wizard_work_env_id']))
@@ -51,12 +52,20 @@ def main(render_type, frange, farm=0):
 
 
 def setup_render_directory(render_type, frange):
+    stage = os.environ.get('wizard_stage_name')
+    asset_name = os.environ.get('wizard_asset_name')
+
+    if not wizard_export.trigger_sanity_hook(stage, asset_name):
+        logging.error("Sanity hook failed for stage: {0}, asset: {1}".format(stage, asset_name))
+        return None
+
     if render_type in ['FML', 'LD', 'HD']:
         export_name = "render_{0}".format(render_type)
         render_directory = wizard_render.setup_render_directory(
             'lighting', export_name)
         wizard_render.setup_frame_range(render_type, frange)
         wizard_render.setup_image_format(render_type)
+        wizard_render.setup_renderfarm_settings(render_type)
         return render_directory
 
 

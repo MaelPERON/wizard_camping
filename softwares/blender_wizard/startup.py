@@ -15,6 +15,10 @@ if pythonpath_env:  # noqa
 # Wizard modules
 from blender_wizard import wizard_tools
 from blender_wizard import wizard_menu
+import wizard_debug
+
+if wizard_debug.is_debugging():
+    wizard_debug.connect()
 
 wizard_menu.register()
 wizard_tools.trigger_after_scene_openning_hook()

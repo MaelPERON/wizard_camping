@@ -105,6 +105,8 @@ def import_from_extension(namespace, files_list, parent_GRP_name, stage_name, re
             reference_abc(namespace, files_list)
         else:
             reference_abc_camera(namespace, files_list)
+    elif extension in ['usd', 'usda', 'usdc']:
+        reference_usd(namespace, files_list)
     elif extension == 'hip':
         merge(namespace, files_list)
     trigger_after_reference_hook(stage_name,
@@ -122,6 +124,8 @@ def update_from_extension(namespace, files_list, parent_GRP_name, stage_name, re
             update_abc(namespace, files_list)
         else:
             update_abc_camera(namespace, files_list)
+    elif extension in ['usd', 'usda', 'usdc']:
+        update_usd(namespace, files_list)
     elif extension == 'hip':
         update_hip(namespace, files_list)
     trigger_after_reference_hook(stage_name,
@@ -156,6 +160,39 @@ def reference_abc(namespace, files_list):
     else:
         logger.warning("Can't reference multiple abc files")
 
+def reference_usd(namespace, files_list):
+
+    usd_files = []
+
+    for file in files_list:
+        if not file.endswith(('.usd', '.usda', '.usdc')):
+            continue
+        usd_files.append(file)
+
+    if len(usd_files) == 1:
+        # Obj level reference
+        wizard_ref_node = wizard_tools.get_wizard_ref_node()
+        if not wizard_tools.node_exists(namespace, parent=wizard_ref_node):
+            usd_node = wizard_tools.create_node_without_duplicate(
+                'usdimport', namespace, wizard_ref_node)
+            usd_node.parm("filepath1").set(usd_files[0])
+            usd_node.parm("input_unpack").set(1)
+            usd_node.parm("unpack_geomtype").set("polygons")
+            null_node = wizard_tools.create_node_without_duplicate(
+                'null', "OUT_"+namespace, wizard_ref_node)
+            null_node.setInput(0, usd_node)
+            wizard_ref_node.layoutChildren()
+
+        # Lop level reference
+        stage = hou.node('/stage')
+        if not wizard_tools.node_exists(namespace, parent=stage):
+            usd_node = wizard_tools.create_node_without_duplicate(
+                'reference', namespace, stage)
+            usd_node.parm("filepath1").set(usd_files[0])
+
+    else:
+        logger.warning("Can't reference multiple usd files")
+
 
 def update_abc(namespace, files_list):
 
@@ -176,6 +213,33 @@ def update_abc(namespace, files_list):
     else:
         logger.warning("Can't reference multiple abc files")
 
+def update_usd(namespace, files_list):
+
+    usd_files = []
+
+    for file in files_list:
+        if not file.endswith(('.usd', '.usda', '.usdc')):
+            continue
+        usd_files.append(file)
+
+    if len(usd_files) == 1:
+        # Obj level reference
+        wizard_ref_node = wizard_tools.get_wizard_ref_node()
+        usd_node = wizard_tools.node_exists(namespace, parent=wizard_ref_node)
+        if usd_node:
+            usd_node.parm("filepath1").set(usd_files[0])
+        else:
+            logger.warning(f"{namespace} not found in /obj/wizard_references")
+
+        # Lop level reference
+        stage = hou.node('/stage')
+        usd_node = wizard_tools.node_exists(namespace, parent=stage)
+        if usd_node:
+            usd_node.parm("filepath1").set(usd_files[0])
+        else:
+            logger.warning(f"{namespace} not found in /stage")
+    else:
+        logger.warning("Can't reference multiple usd files")
 
 def update_hip(namespace, files_list):
     root = hou.node('/obj')
