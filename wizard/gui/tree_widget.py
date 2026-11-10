@@ -1396,7 +1396,7 @@ class instance_creation_widget(QtWidgets.QDialog):
 
         self.outframe_spinBox = QtWidgets.QSpinBox()
         self.outframe_spinBox.setRange(101, 100000)
-        self.outframe_spinBox.setValue(220)
+        self.outframe_spinBox.setValue(291)
         self.outframe_spinBox.setButtonSymbols(
             QtWidgets.QSpinBox.ButtonSymbols.NoButtons)
         self.frange_layout.addWidget(self.outframe_spinBox)
