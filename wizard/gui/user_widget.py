@@ -39,7 +39,7 @@ class user_widget(QtWidgets.QFrame):
         self.items_layout.setContentsMargins(8, 2, 8, 2)
         self.items_layout.setSpacing(6)
         self.items_widget.setLayout(self.items_layout)
-        self.main_layout.addWidget(self.items_widget)
+        # self.main_layout.addWidget(self.items_widget)
 
         self.level_widget = QtWidgets.QFrame()
         self.level_widget.setObjectName('dark_round_frame')
