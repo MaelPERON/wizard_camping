@@ -270,3 +270,11 @@ def get_stylesheet():
     signal_dic['function'] = 'get_stylesheet'
     returned = socket_utils.send_signal(('localhost', get_port()), signal_dic)
     return returned
+
+def set_work_env_extension(work_env_id, extension):
+    signal_dic = dict()
+    signal_dic['function'] = 'set_work_env_extension'
+    signal_dic['work_env_id'] = work_env_id
+    signal_dic['extension'] = extension
+    returned = socket_utils.send_signal(('localhost', get_port()), signal_dic)
+    return returned

@@ -275,6 +275,9 @@ class communicate_server(Thread):
             returned = screen_over_version(signal_dic['version_id'])
         elif signal_dic['function'] == 'get_stylesheet':
             returned = get_stylesheet()
+        elif signal_dic['function'] == 'set_work_env_extension':
+            returned = project.set_work_env_extension(signal_dic['work_env_id'],
+                                                      signal_dic['extension'])
 
         socket_utils.send_signal_with_conn(conn, returned)
 
