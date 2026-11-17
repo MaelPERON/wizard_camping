@@ -162,6 +162,8 @@ def update_file(namespace, files_list, parent_GRP_name, stage_name, referenced_s
         extension = files_list[0].split('.')[-1]
         if extension == 'abc' or extension == 'gproject':
             update_ref(namespace, files_list, GRP)
+        elif extension in ('usd', 'usda', 'usdc', 'usdz'):
+            update_ref(namespace, files_list, GRP)
         elif extension == 'vdb':
             update_vdb_ref(namespace, files_list, GRP)
         elif extension == 'gnode':

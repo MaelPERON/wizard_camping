@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def main(comment='', prepare_only=False):
     scene = wizard_export.save_or_save_increment()
     try:
-        if wizard_communicate.get_export_format(int(os.environ['wizard_work_env_id'])) == 'abc':
+        if wizard_communicate.get_export_format(int(os.environ['wizard_work_env_id'])) != 'hip':
             out_nodes_dic = wizard_tools.get_export_nodes(
                 'wizard_grooming_output')
             if out_nodes_dic == dict():
