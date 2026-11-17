@@ -7,22 +7,28 @@ from PyQt6 import QtWidgets, QtCore, QtGui
 import random
 import json
 import statistics
+import logging
+import re
 
 # Wizard modules
 from wizard.core import repository
+from wizard.core import user
 from wizard.vars import ressources
+from wizard.vars import user_vars
 
 # Wizard gui modules
 from wizard.gui import gui_utils
 from wizard.gui import create_quote_widget
 from wizard.gui import stars_widget
 
+logger = logging.getLogger(__name__)
 
 class quotes_widget(QtWidgets.QFrame):
     def __init__(self, parent=None):
         super(quotes_widget, self).__init__(parent)
         self.previous_quote_id = None
         self.timer = QtCore.QTimer(self)
+        self.show_quotes = user.user().prefs_dic.get(user_vars._show_quotes_, 1)
         self.build_ui()
         self.connect_functions()
         self.get_new_random_quote(without_anim=1)
@@ -72,6 +78,13 @@ class quotes_widget(QtWidgets.QFrame):
         self.add_button.setFixedSize(20, 20)
         self.animation_handler_layout.addWidget(self.add_button)
 
+        self.show_hide_quotes_button = QtWidgets.QPushButton()
+        self.show_hide_quotes_button.setCheckable(True)
+        self.show_hide_quotes_button.setChecked(not self.show_quotes)
+        self.show_hide_quotes_button.setFixedSize(20, 20)
+        self.update_quote_visibility_button()
+        self.animation_handler_layout.addWidget(self.show_hide_quotes_button)
+
         self.animation_handler_layout.addSpacerItem(QtWidgets.QSpacerItem(
             0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed))
 
@@ -81,11 +94,39 @@ class quotes_widget(QtWidgets.QFrame):
         self.random_button.clicked.connect(self.timer.stop)
         self.score_slider.rate_signal.connect(self.vote)
         self.add_button.clicked.connect(self.add_quote)
+        self.show_hide_quotes_button.clicked.connect(self.toggle_quote_visibility)
 
     def add_quote(self):
         self.create_quote_widget = create_quote_widget.create_quote_widget(
             self)
         self.create_quote_widget.exec()
+
+    def update_quote_visibility_button(self):
+        if self.show_quotes:
+            self.show_hide_quotes_button.setIcon(QtGui.QIcon(ressources._password_visibility_off_))
+        else:
+            self.show_hide_quotes_button.setIcon(QtGui.QIcon(ressources._password_visibility_on_))
+        self.show_hide_quotes_button.setIconSize(QtCore.QSize(14, 14))
+
+    def show_content(self, content):
+        content = content.replace('\n', ' ')
+        content = content.replace('\r\n', ' ')
+        content = content.replace('\r', ' ')
+        if not self.show_quotes:
+            content = re.sub(r'\S', '█', content)
+        self.quote_label.setText(content)
+
+    def toggle_quote_visibility(self):
+        # Update and store value
+        self.show_quotes = 1 - self.show_quotes
+        _user = user.user()
+        _user.prefs_dic[user_vars._show_quotes_] = self.show_quotes
+        _user.write_prefs_dic()
+
+        # UI update
+        self.update_quote_visibility_button()
+        self.show_content(self.quote_row['content'])
+        logger.debug(f"Quote visibility toggled.")
 
     def vote(self, score):
         repository.add_quote_score(self.quote_row['id'], score)
@@ -108,11 +149,7 @@ class quotes_widget(QtWidgets.QFrame):
                     self.previous_quote_id = self.random_index
                 self.quote_row = repository.get_quote_data(
                     quotes_ids[self.random_index])
-                content = self.quote_row['content']
-                content = content.replace('\n', ' ')
-                content = content.replace('\r\n', ' ')
-                content = content.replace('\r', ' ')
-                self.quote_label.setText(content)
+                self.show_content(self.quote_row['content'])
                 self.update_score_slider()
                 if not without_anim:
                     self.new_anim()
