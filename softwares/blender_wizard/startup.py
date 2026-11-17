@@ -15,7 +15,14 @@ if pythonpath_env:  # noqa
 # Wizard modules
 from blender_wizard import wizard_tools
 from blender_wizard import wizard_menu
+from blender_wizard import wizard_venv
 import wizard_debug
+
+wizard_venv.ensure_venv()
+try:
+    wizard_venv.install_package("PySide6")
+except Exception as e:
+    print(f"Error occurred while installing PySide6: {e}")
 
 if wizard_debug.is_debugging():
     wizard_debug.connect()
