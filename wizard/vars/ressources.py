@@ -227,6 +227,8 @@ _state_todo_ = path_utils.join(_icons_path_, 'state_todo.svg')
 _available_icons_list_.append(_state_todo_)
 _state_wip_ = path_utils.join(_icons_path_, 'state_wip.svg')
 _available_icons_list_.append(_state_wip_)
+_state_ok_ = path_utils.join(_icons_path_, 'state_ok.svg')
+_available_icons_list_.append(_state_ok_)
 _state_done_ = path_utils.join(_icons_path_, 'state_done.svg')
 _available_icons_list_.append(_state_done_)
 _state_error_ = path_utils.join(_icons_path_, 'state_error.svg')
@@ -560,19 +562,21 @@ _domains_colors_['sequences'] = '#90cc72'
 # Production manager colors
 _states_colors_ = dict()
 _states_colors_['todo'] = '#3a3a41'
-_states_colors_['wip'] = '#b6864e'
-_states_colors_['done'] = '#7ca657'
+_states_colors_['wip'] = "#d69642"
+_states_colors_['done'] = "#30a530"
+_states_colors_['ok'] = "#60a657"
 _states_colors_['error'] = '#d16666'
 _states_colors_['rtk'] = '#4768b5'
 _states_colors_['wfa'] = '#8047b5'
 _states_colors_['omt'] = '#2e2e2e'
 _states_colors_['rfns'] = '#2cdbad'
-_states_colors_['rts'] = '#8494b8'
+_states_colors_['rts'] = "#ddc34f"
 
 _states_icons_ = dict()
 _states_icons_['todo'] = _state_todo_
 _states_icons_['wip'] = _state_wip_
 _states_icons_['done'] = _state_done_
+_states_icons_['ok'] = _state_ok_
 _states_icons_['error'] = _state_error_
 _states_icons_['rtk'] = _state_rtk_
 _states_icons_['wfa'] = _state_wfa_

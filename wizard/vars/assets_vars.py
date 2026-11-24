@@ -234,6 +234,7 @@ _stage_softwares_rules_dic_[_camera_rig_] = [_maya_, _blender_, _houdini_]
 # Asset states
 _asset_state_todo_ = 'todo'
 _asset_state_wip_ = 'wip'
+_asset_state_ok_ = 'ok'
 _asset_state_done_ = 'done'
 _asset_state_error_ = 'error'
 _asset_state_rtk_ = 'rtk'
@@ -248,6 +249,7 @@ _asset_states_list_ = [_asset_state_todo_,
                        _asset_state_wfa_,
                        _asset_state_rfns_,
                        _asset_state_done_,
+                       _asset_state_ok_,
                        _asset_state_rts_,
                        _asset_state_omt_]
 
