@@ -260,7 +260,7 @@ _asset_states_descriptions = {
     _asset_state_wip_: 'Work in progress',
     _asset_state_rtk_: 'Retake needed',
     _asset_state_wfa_: 'Waiting for approval, ready to be validated by the supervisor',
-    _asset_state_rfns_: 'Refine, task is complete but can be improved',
+    _asset_state_rfns_: 'Refines, the task is not fully complete or validated;\nit has been delivered to the next pipeline stage, but work remains',
     _asset_state_ok_: 'Ok, validated by the supervisor',
     _asset_state_done_: 'Done, the task is complete and delivered to the next stage',
     _asset_state_omt_: 'Omit, the task is not needed and can be skipped',
