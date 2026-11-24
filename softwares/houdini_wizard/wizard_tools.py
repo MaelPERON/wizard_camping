@@ -227,7 +227,8 @@ def get_export_nodes(base_name, parent=hou.node('/')):
             if len(node_name_tokens) == tokens_len:
                 export_name = 'main'
             elif len(node_name_tokens) > tokens_len:
-                export_name = node_name_tokens[-1]
+                exceding_tokens = len(node_name_tokens) - tokens_len
+                export_name = '_'.join(node_name_tokens[-exceding_tokens:])
             if export_name in out_nodes_dic.values():
                 logger.warning(f'{node_name} already found.')
                 continue
