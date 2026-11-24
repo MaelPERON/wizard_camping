@@ -37,6 +37,8 @@ nuke.menu('Nuke').addCommand("Wizard/Import/Import all",
                              "wizard_plugin.reference_all()")
 nuke.menu('Nuke').addCommand("Wizard/Import/Import custom",
                              "wizard_plugin.reference_custom()")
+nuke.menu('Nuke').addCommand("Wizard/Import/Import texturing",
+                             "wizard_plugin.reference_texturing()")
 nuke.menu('Nuke').addCommand("Wizard/Import/Import camera",
                              "wizard_plugin.reference_camera()")
 nuke.menu('Nuke').addCommand("Wizard/Import/Import rendering",
@@ -47,6 +49,8 @@ nuke.menu('Nuke').addCommand(
     "Wizard/Update/Update all", "wizard_plugin.update_all()")
 nuke.menu('Nuke').addCommand("Wizard/Update/Update custom",
                              "wizard_plugin.update_custom()")
+nuke.menu('Nuke').addCommand("Wizard/Update/Update texturing",
+                             "wizard_plugin.update_texturing()")
 nuke.menu('Nuke').addCommand("Wizard/Update/Update camera",
                              "wizard_plugin.update_camera()")
 nuke.menu('Nuke').addCommand("Wizard/Update/Update rendering",

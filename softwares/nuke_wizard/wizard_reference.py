@@ -28,6 +28,16 @@ def update_custom(reference_dic):
         reference_dic['namespace'], reference_dic['files'], 'custom', reference_dic['string_stage'])
 
 
+def reference_texturing(reference_dic):
+    import_from_extension(
+        reference_dic['namespace'], reference_dic['files'], 'texturing', reference_dic['string_stage'])
+
+
+def update_texturing(reference_dic):
+    update_from_extension(
+        reference_dic['namespace'], reference_dic['files'], 'texturing', reference_dic['string_stage'])
+
+
 def reference_camera(reference_dic):
     import_from_extension(
         reference_dic['namespace'], reference_dic['files'], 'camera', reference_dic['string_stage'])
@@ -51,7 +61,7 @@ def update_rendering(reference_dic, local):
 def import_from_extension(namespace, files_list, stage_name, referenced_string_asset, local=True):
     old_nodes = wizard_tools.get_all_nodes()
     extension = files_list[0].split('.')[-1]
-    if extension == 'exr':
+    if extension in ('exr', 'png', 'jpg', 'jpeg', 'tif', 'tiff'):
         reference_exr(namespace, files_list, local)
     elif extension == 'nk':
         import_nk(namespace, files_list)

@@ -45,6 +45,7 @@ def reference_all(references=None):
         references = wizard_communicate.get_references(
             int(os.environ['wizard_work_env_id']))
     reference_custom(references)
+    reference_texturing(references)
     reference_camera(references)
     reference_rendering(references)
 
@@ -54,6 +55,7 @@ def update_all(references=None):
         references = wizard_communicate.get_references(
             int(os.environ['wizard_work_env_id']))
     update_custom(references)
+    update_texturing(references)
     update_camera(references)
     update_rendering(references)
 
@@ -74,6 +76,24 @@ def update_custom(references=None):
     if 'custom' in references.keys():
         for reference in references['custom']:
             wizard_reference.update_custom(reference)
+
+
+def reference_texturing(references=None):
+    if not references:
+        references = wizard_communicate.get_references(
+            int(os.environ['wizard_work_env_id']))
+    if 'texturing' in references.keys():
+        for reference in references['texturing']:
+            wizard_reference.reference_texturing(reference)
+
+
+def update_texturing(references=None):
+    if not references:
+        references = wizard_communicate.get_references(
+            int(os.environ['wizard_work_env_id']))
+    if 'texturing' in references.keys():
+        for reference in references['texturing']:
+            wizard_reference.update_texturing(reference)
 
 
 def reference_camera(references=None):
