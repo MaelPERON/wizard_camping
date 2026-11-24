@@ -562,15 +562,15 @@ _domains_colors_['sequences'] = '#90cc72'
 # Production manager colors
 _states_colors_ = dict()
 _states_colors_['todo'] = '#3a3a41'
-_states_colors_['wip'] = "#d69642"
-_states_colors_['done'] = "#30a530"
-_states_colors_['ok'] = "#60a657"
-_states_colors_['error'] = '#d16666'
-_states_colors_['rtk'] = '#4768b5'
-_states_colors_['wfa'] = '#8047b5'
+_states_colors_['rts'] = "#DBC046"
+_states_colors_['error'] = '#D16666'
+_states_colors_['wip'] = "#D69642"
+_states_colors_['rtk'] = '#4D6DB7'
+_states_colors_['wfa'] = '#865EBE'
+_states_colors_['rfns'] = '#25B8B0'
+_states_colors_['ok'] = "#60A657"
+_states_colors_['done'] = "#3B7844"
 _states_colors_['omt'] = '#2e2e2e'
-_states_colors_['rfns'] = '#2cdbad'
-_states_colors_['rts'] = "#ddc34f"
 
 _states_icons_ = dict()
 _states_icons_['todo'] = _state_todo_
