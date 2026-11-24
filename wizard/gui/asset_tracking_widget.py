@@ -97,10 +97,18 @@ class asset_tracking_widget(QtWidgets.QFrame):
         self.state_comboBox = gui_utils.QComboBox()
         self.state_comboBox.setIconSize(QtCore.QSize(16, 16))
         self.state_comboBox.setFixedWidth(90)
+        self.state_comboBox.setMouseTracking(True)
+        self.state_comboBox.view().entered.connect(self.show_state_item_tooltip)
         self.setup_layout.addWidget(self.state_comboBox)
         for state in assets_vars._asset_states_list_:
+            state_description = assets_vars._asset_states_descriptions.get(
+                state, "No description available")
+            index = self.state_comboBox.count()
             self.state_comboBox.addItem(QtGui.QIcon(
                 ressources._states_icons_[state]), state)
+            self.state_comboBox.setItemData(
+                index, state_description, QtCore.Qt.ItemDataRole.ToolTipRole)
+        self.update_state_tooltip()
 
         self.priority_comboBox = gui_utils.QComboBox()
         self.priority_comboBox.setIconSize(QtCore.QSize(16, 16))
@@ -408,7 +416,20 @@ class asset_tracking_widget(QtWidgets.QFrame):
             self.state_comboBox.setCurrentText(self.stage_row['state'])
         else:
             self.state_comboBox.setCurrentText('todo')
+        self.update_state_tooltip()
         self.apply_state_modification = 1
+
+    def update_state_tooltip(self):
+        index = self.state_comboBox.currentIndex()
+        description = self.state_comboBox.itemData(
+            index, QtCore.Qt.ItemDataRole.ToolTipRole)
+        self.state_comboBox.setToolTip(description or "")
+
+    def show_state_item_tooltip(self, index):
+        description = index.data(QtCore.Qt.ItemDataRole.ToolTipRole)
+        if description:
+            QtWidgets.QToolTip.showText(
+                QtGui.QCursor.pos(), description, self.state_comboBox.view())
 
     def refresh_priority(self):
         self.apply_priority_modification = None
@@ -473,6 +494,8 @@ class asset_tracking_widget(QtWidgets.QFrame):
 
     def connect_functions(self):
         self.state_comboBox.currentTextChanged.connect(self.modify_state)
+        self.state_comboBox.currentIndexChanged.connect(
+            lambda: self.update_state_tooltip())
         self.priority_comboBox.currentTextChanged.connect(self.modify_priority)
         self.assignment_comboBox.currentTextChanged.connect(
             self.modify_assignment)

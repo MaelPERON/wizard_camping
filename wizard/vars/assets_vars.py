@@ -234,6 +234,7 @@ _stage_softwares_rules_dic_[_camera_rig_] = [_blender_, _maya_, _houdini_]
 # Asset states
 _asset_state_todo_ = 'todo'
 _asset_state_wip_ = 'wip'
+_asset_state_ok_ = 'ok'
 _asset_state_done_ = 'done'
 _asset_state_error_ = 'error'
 _asset_state_rtk_ = 'rtk'
@@ -242,14 +243,28 @@ _asset_state_omt_ = 'omt'
 _asset_state_rfns_ = 'rfns'
 _asset_state_rts_ = 'rts'
 _asset_states_list_ = [_asset_state_todo_,
-                       _asset_state_wip_,
+                       _asset_state_rts_,
                        _asset_state_error_,
+                       _asset_state_wip_,
                        _asset_state_rtk_,
                        _asset_state_wfa_,
                        _asset_state_rfns_,
+                       _asset_state_ok_,
                        _asset_state_done_,
-                       _asset_state_rts_,
                        _asset_state_omt_]
+
+_asset_states_descriptions = {
+    _asset_state_todo_: 'Task to do',
+    _asset_state_rts_: 'Ready to start, the asset is available to work on',
+    _asset_state_error_: 'Error, the task is suspended',
+    _asset_state_wip_: 'Work in progress',
+    _asset_state_rtk_: 'Retake needed',
+    _asset_state_wfa_: 'Waiting for approval, ready to be validated by the supervisor',
+    _asset_state_rfns_: 'Refine, task is complete but can be improved',
+    _asset_state_ok_: 'Ok, validated by the supervisor',
+    _asset_state_done_: 'Done, the task is complete and delivered to the next stage',
+    _asset_state_omt_: 'Omit, the task is not needed and can be skipped',
+}
 
 # Asset urgence
 _priority_normal_ = 'normal'
