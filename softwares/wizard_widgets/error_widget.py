@@ -8,12 +8,11 @@ import sys
 from pathlib import Path
 try:
     from PyQt6 import QtWidgets, QtCore, QtGui
-except ModuleNotFoundError:
+except (ImportError, ModuleNotFoundError):
     try:
         from PySide6 import QtWidgets, QtCore, QtGui
-    except Exception as e:
-        if isinstance(e, ModuleNotFoundError) or isinstance(e, ImportError):
-            from PySide2 import QtWidgets, QtCore, QtGui
+    except (ImportError, ModuleNotFoundError):
+        from PySide2 import QtWidgets, QtCore, QtGui
 
 
 import logging
