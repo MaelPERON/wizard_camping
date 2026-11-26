@@ -3476,10 +3476,15 @@ def update_stage_progress(stage_id):
               None if no update was necessary.
     """
     stage_row = get_stage_data(stage_id)
-    if stage_row['state'] == 'done' or stage_row['state'] == 'omit':
-        progress = 100
-    else:
-        progress = 0
+    match stage_row['state']:
+        case 'rfns':
+            progress = 85
+        case 'ok':
+            progress = 95
+        case 'done' | 'omit':
+            progress = 100
+        case _:
+            progress = 0
     if progress == stage_row['progress']:
         return
     return db_utils.update_data('project',
