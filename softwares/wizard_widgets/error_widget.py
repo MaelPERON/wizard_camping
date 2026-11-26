@@ -5,6 +5,7 @@
 # Python modules
 import os
 import sys
+from pathlib import Path
 try:
     from PyQt6 import QtWidgets, QtCore, QtGui
 except ModuleNotFoundError:
@@ -38,9 +39,23 @@ class error_widget(QtWidgets.QDialog):
 
         self.error_message = error_message
 
+        self.load_stylesheet()
         self.build_ui()
         self.fill_ui()
         self.connect_functions()
+
+
+    def load_stylesheet(self):
+        css_path = os.path.join(
+            Path(__file__).parent.parent.parent, "ressources", "stylesheet.css"
+        )
+
+        stylesheet_file = QtCore.QFile(str(css_path))
+
+        if stylesheet_file.open(QtCore.QIODevice.ReadOnly | QtCore.QIODevice.Text):
+            stylesheet = str(stylesheet_file.readAll(), "utf-8")
+            self.setStyleSheet(stylesheet)
+            stylesheet_file.close()
 
     def build_ui(self):
         self.main_layout = QtWidgets.QVBoxLayout(self)
