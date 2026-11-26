@@ -452,6 +452,7 @@ class references_widget(QtWidgets.QWidget):
         deactivate_auto_update_action = None
         activate_action = None
         deactivate_action = None
+        toggle_activation_action = None
         update_all_action = menu.addAction(QtGui.QIcon(
             ressources._tool_update_), 'Update all references')
         paste_references_action = menu.addAction(QtGui.QIcon(
@@ -473,6 +474,8 @@ class references_widget(QtWidgets.QWidget):
                 ressources._check_icon_), 'Activate selection')
             deactivate_action = menu.addAction(
                 QtGui.QIcon(''), 'Dectivate selection')
+            toggle_activation_action = menu.addAction(
+                QtGui.QIcon(''), 'Toggle activation for selection (M)')
             if len(selection) == 1:
                 if selection[0].type == 'reference':
                     launch_action = menu.addAction(QtGui.QIcon(
@@ -518,7 +521,8 @@ class references_widget(QtWidgets.QWidget):
                 self.set_activation_on_selection(True)
             elif action == deactivate_action:
                 self.set_activation_on_selection(False)
-
+            elif action == toggle_activation_action:
+                self.toggle_activation_on_selection()
     def copy_references(self):
         selected_items = self.list_view.selectedItems()
         references_dic = dict()
@@ -555,6 +559,23 @@ class references_widget(QtWidgets.QWidget):
                 project.modify_grouped_reference_auto_update(
                     reference_id, auto_update)
         gui_server.refresh_team_ui()
+
+    def toggle_activation_on_selection(self):
+        selected_items = self.list_view.selectedItems()
+        activated = []
+        for item in selected_items:
+            if item.type == 'reference':
+                reference_id = item.reference_row['id']
+                if self.context == 'work_env':
+                    row = project.get_reference_data(reference_id)
+                else:
+                    row = project.get_grouped_reference_data(reference_id)
+                activated.append(row['activated'])
+
+        if any(activated):
+            self.set_activation_on_selection(False)
+        else:
+            self.set_activation_on_selection(True)
 
     def set_activation_on_selection(self, activation):
         selected_items = self.list_view.selectedItems()
