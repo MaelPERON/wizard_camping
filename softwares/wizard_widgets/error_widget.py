@@ -74,4 +74,4 @@ class error_widget(QtWidgets.QDialog):
         self.error_label.setText(self.error_message)
 
     def connect_functions(self):
-        self.ok_button.clicked.connect(self.accept)
+        self.ok_button.clicked.connect(self.accept)  # TODO: solve houdini freeze issue
