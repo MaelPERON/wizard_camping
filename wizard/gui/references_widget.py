@@ -935,6 +935,8 @@ class custom_reference_tree_item(QtWidgets.QTreeWidgetItem):
         else:
             self.version_widget.setColor('#f79360')
 
+        self.version_widget.setToolTip(infos_list[9])
+
     def show_comment(self):
         if self.state_widget.isActiveWindow():
             if not self.stage_row:
@@ -1144,7 +1146,8 @@ class reference_infos_thread(QtCore.QThread):
                                                       asset_name,
                                                       stage_row,
                                                       extension,
-                                                      reference_row['activated']])
+                                                      reference_row['activated'],
+                                                      export_version_row['comment']])
         except:
             logger.error(str(traceback.format_exc()))
 
