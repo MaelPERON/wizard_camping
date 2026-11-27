@@ -1,6 +1,12 @@
 'last':
   update_list:
   - !!python/tuple
+    - INFO
+    - Wizard Camping (26w47b)
+  time: 1795742184.935842
+'6.0.0.420':
+  update_list:
+  - !!python/tuple
     - New
     - Wizard version 6.0 ( 2027 )
   - !!python/tuple
