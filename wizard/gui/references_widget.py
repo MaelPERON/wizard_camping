@@ -10,6 +10,7 @@ import logging
 import copy
 import traceback
 import json
+from functools import partial
 
 # Wizard gui modules
 from wizard.gui import search_reference_widget
@@ -90,6 +91,31 @@ class references_widget(QtWidgets.QWidget):
             self.show_search_referenced_group)
         self.search_thread.hide_group_signal.connect(
             self.hide_search_referenced_group)
+
+
+        self.copy_sc = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+C'), self)
+        self.copy_sc.activated.connect(self.copy_references)
+
+        self.paste_sc = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+V'), self)
+        self.paste_sc.activated.connect(self.paste_references)
+
+        self.remove_sc = QtGui.QShortcut(QtGui.QKeySequence('Delete'), self)
+        self.remove_sc.activated.connect(self.remove_selection)
+
+        self.toggle_activation_sc = QtGui.QShortcut(QtGui.QKeySequence('M'), self)
+        self.toggle_activation_sc.activated.connect(self.toggle_activation_on_selection)
+
+        self.launch_sc = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+O'), self)
+        self.launch_sc.activated.connect(self.launch_work_version)
+
+        self.open_folder_sc = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+Shift+O'), self)
+        self.open_folder_sc.activated.connect(self.open_folder)
+
+        self.focus_sc = QtGui.QShortcut(QtGui.QKeySequence('F'), self)
+        self.focus_sc.activated.connect(self.focus_on_export_version)
+
+        self.focus_search_sc = QtGui.QShortcut(QtGui.QKeySequence('Ctrl+F'), self)
+        self.focus_search_sc.activated.connect(partial(self.search_bar.setFocus, QtCore.Qt.FocusReason.ShortcutFocusReason))
 
     def update_search(self):
         if not self.reference_rows:
@@ -456,16 +482,16 @@ class references_widget(QtWidgets.QWidget):
         update_all_action = menu.addAction(QtGui.QIcon(
             ressources._tool_update_), 'Update all references')
         paste_references_action = menu.addAction(QtGui.QIcon(
-            ressources._tool_duplicate_), 'Paste references')
+            ressources._tool_duplicate_), 'Paste references (Ctrl+V)')
         if len(selection) >= 1:
             update_action = menu.addAction(QtGui.QIcon(
                 ressources._tool_update_), 'Update selected references')
             remove_action = menu.addAction(QtGui.QIcon(
-                ressources._tool_archive_), 'Remove selected references')
+                ressources._tool_archive_), 'Remove selected references (Delete)')
             duplicate_action = menu.addAction(QtGui.QIcon(
                 ressources._tool_duplicate_), 'Duplicate selected references')
             copy_references_action = menu.addAction(QtGui.QIcon(
-                ressources._tool_duplicate_), 'Copy selected references')
+                ressources._tool_duplicate_), 'Copy selected references (Ctrl+C)')
             activate_auto_update_action = menu.addAction(QtGui.QIcon(
                 ressources._tool_update_), 'Activate auto update for selection')
             deactivate_auto_update_action = menu.addAction(
@@ -479,13 +505,13 @@ class references_widget(QtWidgets.QWidget):
             if len(selection) == 1:
                 if selection[0].type == 'reference':
                     launch_action = menu.addAction(QtGui.QIcon(
-                        ressources._launch_icon_), 'Launch related work version')
+                        ressources._launch_icon_), 'Launch related work version (Ctrl+O)')
                     focus_action = menu.addAction(QtGui.QIcon(
-                        ressources._tool_focus_), 'Focus on export instance')
+                        ressources._tool_focus_), 'Focus on export instance (F)')
                     declare_error_action = menu.addAction(QtGui.QIcon(
                         ressources._tool_error_), 'Declare error on this asset')
                     open_folder_action = menu.addAction(
-                        QtGui.QIcon(ressources._tool_folder_), 'Open folder')
+                        QtGui.QIcon(ressources._tool_folder_), 'Open folder (Ctrl+Shift+O)')
         add_action = menu.addAction(QtGui.QIcon(
             ressources._tool_add_), 'Add references (Tab)')
 
@@ -737,12 +763,12 @@ class references_widget(QtWidgets.QWidget):
         self.search_bar = gui_utils.search_bar()
         gui_utils.application_tooltip(
             self.search_bar, "Search for a specific version")
-        self.search_bar.setPlaceholderText('"modeling", "props", "Joe"')
+        self.search_bar.setPlaceholderText('"modeling", "props", "Joe" (Ctrl+F to focus)')
         self.buttons_layout.addWidget(self.search_bar)
 
         self.remove_selection_button = QtWidgets.QPushButton()
         gui_utils.application_tooltip(
-            self.remove_selection_button, "Remove selected references")
+            self.remove_selection_button, "Remove selected references (Delete)")
         self.remove_selection_button.setFixedSize(35, 35)
         self.remove_selection_button.setIconSize(QtCore.QSize(25, 25))
         self.remove_selection_button.setIcon(
