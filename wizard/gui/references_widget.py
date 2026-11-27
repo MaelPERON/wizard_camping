@@ -922,6 +922,19 @@ class custom_reference_tree_item(QtWidgets.QTreeWidgetItem):
         self.setForeground(8, QtGui.QBrush(QtGui.QColor('gray')))
 
     def update_item_infos(self, infos_list):
+        """ Update the item's information with the provided list. 
+        
+            0. Reference ID
+            1. Export name
+            2. Version name
+            3. Up to date status
+            4. Auto update status
+            5. Asset name
+            6. Stage row
+            7. Extension
+            8. Activation status
+            9. Export comment
+        """
         self.export_widget.setText(infos_list[1])
         self.version_widget.setText(infos_list[2])
         self.set_auto_update(infos_list[4])
