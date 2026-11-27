@@ -1179,6 +1179,11 @@ class search_thread(QtCore.QThread):
             keywords = self.search_data.split('&')
             for reference_row in self.reference_rows:
 
+                export = project.get_export_data(reference_row['export_id'])
+                stage = project.get_stage_data(export['stage_id'])
+                asset = project.get_asset_data(stage['asset_id'])
+                category = project.get_category_data(asset['category_id'])
+
                 reference_id = reference_row['id']
                 del reference_row['id']
                 del reference_row['creation_time']
@@ -1195,6 +1200,10 @@ class search_thread(QtCore.QThread):
                 data_list = []
                 for data_block in values:
                     data_list.append(str(data_block))
+
+                data_list.append(asset['name'])
+                data_list.append(category['name'])
+
                 data = (' ').join(data_list)
 
                 if all(keyword.upper() in data.upper() for keyword in keywords):
